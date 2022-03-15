@@ -404,7 +404,7 @@ void Q3PatchTriangleElements(int *elements, int width, int height, int firstvert
 		if(y % 2)
 		{
 			// swap the triangle order in odd rows as optimization for collision stride
-			row0 = firstvertex + (y + 0) * width + width - 2;
+			row0 = firstvertex + y * width + width - 2;
 			row1 = firstvertex + (y + 1) * width + width - 2;
 			for (x = 0;x < width - 1;x++)
 			{
@@ -420,7 +420,7 @@ void Q3PatchTriangleElements(int *elements, int width, int height, int firstvert
 		}
 		else
 		{
-			row0 = firstvertex + (y + 0) * width;
+			row0 = firstvertex + y * width;
 			row1 = firstvertex + (y + 1) * width;
 			for (x = 0;x < width - 1;x++)
 			{
