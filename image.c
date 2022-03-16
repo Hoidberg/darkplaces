@@ -868,7 +868,7 @@ static unsigned char* LoadLMP_BGRA(const unsigned char *f, int filesize, int *mi
 	for (i = 0; i < image_width * image_height; i++)
 	{
 		const unsigned char *p = (const unsigned char *)palette_bgra_transparent + 4 * f[8 + i];
-		image_buffer[i * 4 + 0] = p[0];
+		image_buffer[i * 4] = p[0];
 		image_buffer[i * 4 + 1] = p[1];
 		image_buffer[i * 4 + 2] = p[2];
 		image_buffer[i * 4 + 3] = p[3];
@@ -901,7 +901,7 @@ static unsigned char *LoadConChars_BGRA(const unsigned char *f, int filesize, in
 	for (i = 0; i < image_width * image_height; i++)
 	{
 		const unsigned char *p = (const unsigned char *)palette_bgra_font + 4 * f[i];
-		image_buffer[i * 4 + 0] = p[0];
+		image_buffer[i * 4] = p[0];
 		image_buffer[i * 4 + 1] = p[1];
 		image_buffer[i * 4 + 2] = p[2];
 		image_buffer[i * 4 + 3] = p[3];
@@ -936,7 +936,7 @@ void Image_MakeLinearColorsFromsRGB(unsigned char *pout, const unsigned char *pi
 			image_linearfromsrgb[i] = (unsigned char)floor(Image_LinearFloatFromsRGB(i) * 255.0f + 0.5f);
 	for (i = 0;i < numpixels;i++)
 	{
-		pout[i*4+0] = image_linearfromsrgb[pin[i*4+0]];
+		pout[i*4] = image_linearfromsrgb[pin[i*4]];
 		pout[i*4+1] = image_linearfromsrgb[pin[i*4+1]];
 		pout[i*4+2] = image_linearfromsrgb[pin[i*4+2]];
 		pout[i*4+3] = pin[i*4+3];
@@ -952,7 +952,7 @@ void Image_MakesRGBColorsFromLinear_Lightmap(unsigned char *pout, const unsigned
 			image_srgbfromlinear_lightmap[i] = (unsigned char)floor(bound(0.0f, Image_sRGBFloatFromLinear_Lightmap(i), 1.0f) * 255.0f + 0.5f);
 	for (i = 0;i < numpixels;i++)
 	{
-		pout[i*4+0] = image_srgbfromlinear_lightmap[pin[i*4+0]];
+		pout[i*4] = image_srgbfromlinear_lightmap[pin[i*4]];
 		pout[i*4+1] = image_srgbfromlinear_lightmap[pin[i*4+1]];
 		pout[i*4+2] = image_srgbfromlinear_lightmap[pin[i*4+2]];
 		pout[i*4+3] = pin[i*4+3];
@@ -1304,7 +1304,7 @@ int fixtransparentpixels(unsigned char *data, int w, int h)
 					{
 						r = data[FIXTRANS_PIXEL_U * 4 + 2];
 						g = data[FIXTRANS_PIXEL_U * 4 + 1];
-						b = data[FIXTRANS_PIXEL_U * 4 + 0];
+						b = data[FIXTRANS_PIXEL_U * 4];
 						a = data[FIXTRANS_PIXEL_U * 4 + 3];
 						sumR += r; sumG += g; sumB += b; sumA += a; sumRA += r*a; sumGA += g*a; sumBA += b*a; ++cnt;
 					}
@@ -1312,7 +1312,7 @@ int fixtransparentpixels(unsigned char *data, int w, int h)
 					{
 						r = data[FIXTRANS_PIXEL_D * 4 + 2];
 						g = data[FIXTRANS_PIXEL_D * 4 + 1];
-						b = data[FIXTRANS_PIXEL_D * 4 + 0];
+						b = data[FIXTRANS_PIXEL_D * 4];
 						a = data[FIXTRANS_PIXEL_D * 4 + 3];
 						sumR += r; sumG += g; sumB += b; sumA += a; sumRA += r*a; sumGA += g*a; sumBA += b*a; ++cnt;
 					}
@@ -1320,7 +1320,7 @@ int fixtransparentpixels(unsigned char *data, int w, int h)
 					{
 						r = data[FIXTRANS_PIXEL_L * 4 + 2];
 						g = data[FIXTRANS_PIXEL_L * 4 + 1];
-						b = data[FIXTRANS_PIXEL_L * 4 + 0];
+						b = data[FIXTRANS_PIXEL_L * 4];
 						a = data[FIXTRANS_PIXEL_L * 4 + 3];
 						sumR += r; sumG += g; sumB += b; sumA += a; sumRA += r*a; sumGA += g*a; sumBA += b*a; ++cnt;
 					}
@@ -1328,7 +1328,7 @@ int fixtransparentpixels(unsigned char *data, int w, int h)
 					{
 						r = data[FIXTRANS_PIXEL_R * 4 + 2];
 						g = data[FIXTRANS_PIXEL_R * 4 + 1];
-						b = data[FIXTRANS_PIXEL_R * 4 + 0];
+						b = data[FIXTRANS_PIXEL_R * 4];
 						a = data[FIXTRANS_PIXEL_R * 4 + 3];
 						sumR += r; sumG += g; sumB += b; sumA += a; sumRA += r*a; sumGA += g*a; sumBA += b*a; ++cnt;
 					}
@@ -1336,7 +1336,7 @@ int fixtransparentpixels(unsigned char *data, int w, int h)
 						continue;
 					r0 = data[FIXTRANS_PIXEL * 4 + 2];
 					g0 = data[FIXTRANS_PIXEL * 4 + 1];
-					b0 = data[FIXTRANS_PIXEL * 4 + 0];
+					b0 = data[FIXTRANS_PIXEL * 4];
 					if(sumA)
 					{
 						// there is a surrounding non-alpha pixel
@@ -1355,7 +1355,7 @@ int fixtransparentpixels(unsigned char *data, int w, int h)
 						++changedPixels;
 					data[FIXTRANS_PIXEL * 4 + 2] = r;
 					data[FIXTRANS_PIXEL * 4 + 1] = g;
-					data[FIXTRANS_PIXEL * 4 + 0] = b;
+					data[FIXTRANS_PIXEL * 4] = b;
 					fixMask[FIXTRANS_PIXEL] |= FIXTRANS_FIXED;
 				}
 		for(y = 0; y < h; ++y)
@@ -1824,37 +1824,37 @@ static unsigned char *Image_GenerateConChars(void)
 	for (i = 0; i < 8192; i++)
 	{
 		random = lhrandom(0.0, 1.0);
-		data[i * 4 + 3] = data[i * 4 + 0];
+		data[i * 4 + 3] = data[i * 4];
 		data[i * 4 + 2] = 83 + (unsigned char)(random * 64);
 		data[i * 4 + 1] = 71 + (unsigned char)(random * 32);
-		data[i * 4 + 0] = 23 + (unsigned char)(random * 16);
+		data[i * 4] = 23 + (unsigned char)(random * 16);
 	}
 	// White chars
 	for (i = 8192; i < 32768; i++)
 	{
 		random = lhrandom(0.0, 1.0);
-		data[i * 4 + 3] = data[i * 4 + 0];
+		data[i * 4 + 3] = data[i * 4];
 		data[i * 4 + 2] = 95 + (unsigned char)(random * 64);
 		data[i * 4 + 1] = 95 + (unsigned char)(random * 64);
-		data[i * 4 + 0] = 95 + (unsigned char)(random * 64);
+		data[i * 4] = 95 + (unsigned char)(random * 64);
 	}
 	// Gold numbers
 	for (i = 32768; i < 40960; i++)
 	{
 		random = lhrandom(0.0, 1.0);
-		data[i * 4 + 3] = data[i * 4 + 0];
+		data[i * 4 + 3] = data[i * 4];
 		data[i * 4 + 2] = 83 + (unsigned char)(random * 64);
 		data[i * 4 + 1] = 71 + (unsigned char)(random * 32);
-		data[i * 4 + 0] = 23 + (unsigned char)(random * 16);
+		data[i * 4] = 23 + (unsigned char)(random * 16);
 	}
 	// Red chars
 	for (i = 40960; i < 65536; i++)
 	{
 		random = lhrandom(0.0, 1.0);
-		data[i * 4 + 3] = data[i * 4 + 0];
+		data[i * 4 + 3] = data[i * 4];
 		data[i * 4 + 2] = 96 + (unsigned char)(random * 64);
 		data[i * 4 + 1] = 43 + (unsigned char)(random * 32);
-		data[i * 4 + 0] = 27 + (unsigned char)(random * 32);
+		data[i * 4] = 27 + (unsigned char)(random * 32);
 	}
 
 #if 0
@@ -1874,7 +1874,7 @@ static unsigned char *Image_GenerateDitherPattern(void)
 	{
 		for (x = 0; x < 8; x++)
 		{
-			data[(y * 8 + x) * 4 + 0] = ((x^y) & 4) ? 255 : 0;
+			data[(y * 8 + x) * 4] = ((x^y) & 4) ? 255 : 0;
 			data[(y * 8 + x) * 4 + 1] = ((x^y) & 4) ? 255 : 0;
 			data[(y * 8 + x) * 4 + 2] = ((x^y) & 4) ? 255 : 0;
 			data[(y * 8 + x) * 4 + 3] = 255;
@@ -1895,7 +1895,7 @@ unsigned char *Image_GenerateNoTexture(void)
 	{
 		for (x = 0; x < 16; x++)
 		{
-			data[(y * 16 + x) * 4 + 0] =
+			data[(y * 16 + x) * 4] =
 			data[(y * 16 + x) * 4 + 1] =
 			data[(y * 16 + x) * 4 + 2] = (y < 8) ^ (x < 8) ? 128 : 64;
 			data[(y * 16 + x) * 4 + 3] = 255;
