@@ -296,7 +296,7 @@ static void Mod_MD3_AnimateVertices(const model_t * RESTRICT model, const frameb
 			{
 				for (i = 0;i < numverts;i++)
 				{
-					vertex3f[i * 3 + 0] = verts[i].origin[0] * scale;
+					vertex3f[i * 3] = verts[i].origin[0] * scale;
 					vertex3f[i * 3 + 1] = verts[i].origin[1] * scale;
 					vertex3f[i * 3 + 2] = verts[i].origin[2] * scale;
 				}
@@ -305,7 +305,7 @@ static void Mod_MD3_AnimateVertices(const model_t * RESTRICT model, const frameb
 			{
 				for (i = 0;i < numverts;i++)
 				{
-					vertex3f[i * 3 + 0] += verts[i].origin[0] * scale;
+					vertex3f[i * 3] += verts[i].origin[0] * scale;
 					vertex3f[i * 3 + 1] += verts[i].origin[1] * scale;
 					vertex3f[i * 3 + 2] += verts[i].origin[2] * scale;
 				}
@@ -323,7 +323,7 @@ static void Mod_MD3_AnimateVertices(const model_t * RESTRICT model, const frameb
 			{
 				for (i = 0;i < numverts;i++)
 				{
-					normal3f[i * 3 + 0] = mod_md3_sin[verts[i].yaw + 64] * mod_md3_sin[verts[i].pitch     ] * lerp;
+					normal3f[i * 3] = mod_md3_sin[verts[i].yaw + 64] * mod_md3_sin[verts[i].pitch     ] * lerp;
 					normal3f[i * 3 + 1] = mod_md3_sin[verts[i].yaw     ] * mod_md3_sin[verts[i].pitch     ] * lerp;
 					normal3f[i * 3 + 2] =                                  mod_md3_sin[verts[i].pitch + 64] * lerp;
 				}
@@ -332,7 +332,7 @@ static void Mod_MD3_AnimateVertices(const model_t * RESTRICT model, const frameb
 			{
 				for (i = 0;i < numverts;i++)
 				{
-					normal3f[i * 3 + 0] += mod_md3_sin[verts[i].yaw + 64] * mod_md3_sin[verts[i].pitch     ] * lerp;
+					normal3f[i * 3] += mod_md3_sin[verts[i].yaw + 64] * mod_md3_sin[verts[i].pitch     ] * lerp;
 					normal3f[i * 3 + 1] += mod_md3_sin[verts[i].yaw     ] * mod_md3_sin[verts[i].pitch     ] * lerp;
 					normal3f[i * 3 + 2] +=                                  mod_md3_sin[verts[i].pitch + 64] * lerp;
 				}
@@ -395,7 +395,7 @@ static void Mod_MDL_AnimateVertices(const model_t * RESTRICT model, const frameb
 			{
 				for (i = 0;i < numverts;i++)
 				{
-					vertex3f[i * 3 + 0] = translate[0] + verts[i].v[0] * scale[0];
+					vertex3f[i * 3] = translate[0] + verts[i].v[0] * scale[0];
 					vertex3f[i * 3 + 1] = translate[1] + verts[i].v[1] * scale[1];
 					vertex3f[i * 3 + 2] = translate[2] + verts[i].v[2] * scale[2];
 				}
@@ -404,7 +404,7 @@ static void Mod_MDL_AnimateVertices(const model_t * RESTRICT model, const frameb
 			{
 				for (i = 0;i < numverts;i++)
 				{
-					vertex3f[i * 3 + 0] += verts[i].v[0] * scale[0];
+					vertex3f[i * 3] += verts[i].v[0] * scale[0];
 					vertex3f[i * 3 + 1] += verts[i].v[1] * scale[1];
 					vertex3f[i * 3 + 2] += verts[i].v[2] * scale[2];
 				}
@@ -1152,7 +1152,7 @@ void Mod_IDP0_Load(model_t *mod, void *buffer, void *bufferend)
 		if (vertremap[i])
 		{
 			vertremap[i] = loadmodel->surfmesh.num_vertices;
-			vertst[loadmodel->surfmesh.num_vertices*2+0] = vertst[i*2+0];
+			vertst[loadmodel->surfmesh.num_vertices*2] = vertst[i*2];
 			vertst[loadmodel->surfmesh.num_vertices*2+1] = vertst[i*2+1];
 			loadmodel->surfmesh.num_vertices++;
 		}
@@ -1166,7 +1166,7 @@ void Mod_IDP0_Load(model_t *mod, void *buffer, void *bufferend)
 	loadmodel->surfmesh.data_texcoordtexture2f = (float *)Mem_Alloc(loadmodel->mempool, sizeof(float[2]) * loadmodel->surfmesh.num_vertices);
 	for (i = 0;i < loadmodel->surfmesh.num_vertices;i++)
 	{
-		loadmodel->surfmesh.data_texcoordtexture2f[i*2+0] = vertst[i*2+0];
+		loadmodel->surfmesh.data_texcoordtexture2f[i*2] = vertst[i*2];
 		loadmodel->surfmesh.data_texcoordtexture2f[i*2+1] = vertst[i*2+1];
 	}
 
@@ -1498,7 +1498,7 @@ void Mod_IDP2_Load(model_t *mod, void *buffer, void *bufferend)
 		int sts, stt;
 		hash = md2verthashdata + i;
 		vertremap[i] = hash->xyz;
-		sts = LittleShort(inst[hash->st*2+0]);
+		sts = LittleShort(inst[hash->st*2]);
 		stt = LittleShort(inst[hash->st*2+1]);
 		if (sts < 0 || sts >= skinwidth || stt < 0 || stt >= skinheight)
 		{
@@ -1506,7 +1506,7 @@ void Mod_IDP2_Load(model_t *mod, void *buffer, void *bufferend)
 			sts = 0;
 			stt = 0;
 		}
-		loadmodel->surfmesh.data_texcoordtexture2f[i*2+0] = sts * iskinwidth;
+		loadmodel->surfmesh.data_texcoordtexture2f[i*2] = sts * iskinwidth;
 		loadmodel->surfmesh.data_texcoordtexture2f[i*2+1] = stt * iskinheight;
 	}
 
@@ -1715,7 +1715,7 @@ void Mod_IDP3_Load(model_t *mod, void *buffer, void *bufferend)
 		}
 		for (j = 0;j < surface->num_vertices;j++)
 		{
-			loadmodel->surfmesh.data_texcoordtexture2f[(j + surface->num_firstvertex) * 2 + 0] = LittleFloat(((float *)((unsigned char *)pinmesh + LittleLong(pinmesh->lump_texcoords)))[j * 2 + 0]);
+			loadmodel->surfmesh.data_texcoordtexture2f[(j + surface->num_firstvertex) * 2] = LittleFloat(((float *)((unsigned char *)pinmesh + LittleLong(pinmesh->lump_texcoords)))[j * 2 + 0]);
 			loadmodel->surfmesh.data_texcoordtexture2f[(j + surface->num_firstvertex) * 2 + 1] = LittleFloat(((float *)((unsigned char *)pinmesh + LittleLong(pinmesh->lump_texcoords)))[j * 2 + 1]);
 		}
 		for (j = 0;j < loadmodel->numframes;j++)
@@ -2027,7 +2027,7 @@ void Mod_ZYMOTICMODEL_Load(model_t *mod, void *buffer, void *bufferend)
 		relativeorigin[1] = BigFloat(vertdata[j].origin[1]);
 		relativeorigin[2] = BigFloat(vertdata[j].origin[2]);
 		// transform the vertex bone weight into the base mesh
-		loadmodel->surfmesh.data_vertex3f[j*3+0] = relativeorigin[0] * m[0] + relativeorigin[1] * m[1] + relativeorigin[2] * m[ 2] + m[ 3];
+		loadmodel->surfmesh.data_vertex3f[j*3] = relativeorigin[0] * m[0] + relativeorigin[1] * m[1] + relativeorigin[2] * m[ 2] + m[ 3];
 		loadmodel->surfmesh.data_vertex3f[j*3+1] = relativeorigin[0] * m[4] + relativeorigin[1] * m[5] + relativeorigin[2] * m[ 6] + m[ 7];
 		loadmodel->surfmesh.data_vertex3f[j*3+2] = relativeorigin[0] * m[8] + relativeorigin[1] * m[9] + relativeorigin[2] * m[10] + m[11];
 		// store the weight as the primary weight on this vertex
@@ -2049,7 +2049,7 @@ void Mod_ZYMOTICMODEL_Load(model_t *mod, void *buffer, void *bufferend)
 	intexcoord2f = (float *) (pheader->lump_texcoords.start + pbase);
 	for (i = 0;i < pheader->numverts;i++)
 	{
-		outtexcoord2f[i*2+0] = BigFloat(intexcoord2f[i*2+0]);
+		outtexcoord2f[i*2] = BigFloat(intexcoord2f[i*2+0]);
 		// flip T coordinate for OpenGL
 		outtexcoord2f[i*2+1] = 1 - BigFloat(intexcoord2f[i*2+1]);
 	}
@@ -2089,7 +2089,7 @@ void Mod_ZYMOTICMODEL_Load(model_t *mod, void *buffer, void *bufferend)
 		{
 			outelements[j*3+2] = BigLong(renderlist[0]);
 			outelements[j*3+1] = BigLong(renderlist[1]);
-			outelements[j*3+0] = BigLong(renderlist[2]);
+			outelements[j*3] = BigLong(renderlist[2]);
 		}
 		// validate the elements and find the used vertex range
 		firstvertex = meshvertices;
@@ -2388,12 +2388,12 @@ void Mod_DARKPLACESMODEL_Load(model_t *mod, void *buffer, void *bufferend)
 		for (j = 0;j < surface->num_triangles;j++)
 		{
 			// swap element order to flip triangles, because Quake uses clockwise (rare) and dpm uses counterclockwise (standard)
-			outelement3i[j * 3 + 0] = surface->num_firstvertex + BigLong(inelements[j * 3 + 2]);
+			outelement3i[j * 3] = surface->num_firstvertex + BigLong(inelements[j * 3 + 2]);
 			outelement3i[j * 3 + 1] = surface->num_firstvertex + BigLong(inelements[j * 3 + 1]);
-			outelement3i[j * 3 + 2] = surface->num_firstvertex + BigLong(inelements[j * 3 + 0]);
+			outelement3i[j * 3 + 2] = surface->num_firstvertex + BigLong(inelements[j * 3]);
 			if (outelement3s)
 			{
-				outelement3s[j * 3 + 0] = outelement3i[j * 3 + 0];
+				outelement3s[j * 3] = outelement3i[j * 3];
 				outelement3s[j * 3 + 1] = outelement3i[j * 3 + 1];
 				outelement3s[j * 3 + 2] = outelement3i[j * 3 + 2];
 			}
@@ -2425,10 +2425,10 @@ void Mod_DARKPLACESMODEL_Load(model_t *mod, void *buffer, void *bufferend)
 				relativenormal[1] = BigFloat(vert->normal[1]);
 				relativenormal[2] = BigFloat(vert->normal[2]);
 				// blend the vertex bone weights into the base mesh
-				loadmodel->surfmesh.data_vertex3f[j*3+0] += relativeorigin[0] * m[0] + relativeorigin[1] * m[1] + relativeorigin[2] * m[ 2] + influence * m[ 3];
+				loadmodel->surfmesh.data_vertex3f[j*3] += relativeorigin[0] * m[0] + relativeorigin[1] * m[1] + relativeorigin[2] * m[ 2] + influence * m[ 3];
 				loadmodel->surfmesh.data_vertex3f[j*3+1] += relativeorigin[0] * m[4] + relativeorigin[1] * m[5] + relativeorigin[2] * m[ 6] + influence * m[ 7];
 				loadmodel->surfmesh.data_vertex3f[j*3+2] += relativeorigin[0] * m[8] + relativeorigin[1] * m[9] + relativeorigin[2] * m[10] + influence * m[11];
-				loadmodel->surfmesh.data_normal3f[j*3+0] += relativenormal[0] * m[0] + relativenormal[1] * m[1] + relativenormal[2] * m[ 2];
+				loadmodel->surfmesh.data_normal3f[j*3] += relativenormal[0] * m[0] + relativenormal[1] * m[1] + relativenormal[2] * m[ 2];
 				loadmodel->surfmesh.data_normal3f[j*3+1] += relativenormal[0] * m[4] + relativenormal[1] * m[5] + relativenormal[2] * m[ 6];
 				loadmodel->surfmesh.data_normal3f[j*3+2] += relativenormal[0] * m[8] + relativenormal[1] * m[9] + relativenormal[2] * m[10];
 				if (!k)
@@ -2947,10 +2947,10 @@ void Mod_PSKMODEL_Load(model_t *mod, void *buffer, void *bufferend)
 	// copy over the vertex locations and texcoords
 	for (index = 0;index < numvtxw;index++)
 	{
-		loadmodel->surfmesh.data_vertex3f[index*3+0] = pnts[vtxw[index].pntsindex].origin[0];
+		loadmodel->surfmesh.data_vertex3f[index*3] = pnts[vtxw[index].pntsindex].origin[0];
 		loadmodel->surfmesh.data_vertex3f[index*3+1] = pnts[vtxw[index].pntsindex].origin[1];
 		loadmodel->surfmesh.data_vertex3f[index*3+2] = pnts[vtxw[index].pntsindex].origin[2];
-		loadmodel->surfmesh.data_texcoordtexture2f[index*2+0] = vtxw[index].texcoord[0];
+		loadmodel->surfmesh.data_texcoordtexture2f[index*2] = vtxw[index].texcoord[0];
 		loadmodel->surfmesh.data_texcoordtexture2f[index*2+1] = vtxw[index].texcoord[1];
 	}
 
@@ -2966,7 +2966,7 @@ void Mod_PSKMODEL_Load(model_t *mod, void *buffer, void *bufferend)
 	for (index = 0;index < numfaces;index++)
 	{
 		i = (loadmodel->data_surfaces[faces[index].mattindex].num_firsttriangle + loadmodel->data_surfaces[faces[index].mattindex].num_triangles++)*3;
-		loadmodel->surfmesh.data_element3i[i+0] = faces[index].vtxwindex[0];
+		loadmodel->surfmesh.data_element3i[i] = faces[index].vtxwindex[0];
 		loadmodel->surfmesh.data_element3i[i+1] = faces[index].vtxwindex[1];
 		loadmodel->surfmesh.data_element3i[i+2] = faces[index].vtxwindex[2];
 	}
@@ -3087,7 +3087,7 @@ void Mod_PSKMODEL_Load(model_t *mod, void *buffer, void *bufferend)
 				Vector4Negate(quat, quat);
 			Vector4Normalize2(quat, quat);
 			// compress poses to the short[7] format for longterm storage
-			loadmodel->data_poses7s[index*7+0] = k->origin[0] * loadmodel->num_poseinvscale;
+			loadmodel->data_poses7s[index*7] = k->origin[0] * loadmodel->num_poseinvscale;
 			loadmodel->data_poses7s[index*7+1] = k->origin[1] * loadmodel->num_poseinvscale;
 			loadmodel->data_poses7s[index*7+2] = k->origin[2] * loadmodel->num_poseinvscale;
 			loadmodel->data_poses7s[index*7+3] = quat[0] * 32767.0f;
@@ -3128,7 +3128,7 @@ void Mod_PSKMODEL_Load(model_t *mod, void *buffer, void *bufferend)
 				Vector4Negate(quat, quat);
 			Vector4Normalize2(quat, quat);
 			// compress poses to the short[7] format for longterm storage
-			loadmodel->data_poses7s[index*7+0] = p->basepose.origin[0] * loadmodel->num_poseinvscale;
+			loadmodel->data_poses7s[index*7] = p->basepose.origin[0] * loadmodel->num_poseinvscale;
 			loadmodel->data_poses7s[index*7+1] = p->basepose.origin[1] * loadmodel->num_poseinvscale;
 			loadmodel->data_poses7s[index*7+2] = p->basepose.origin[2] * loadmodel->num_poseinvscale;
 			loadmodel->data_poses7s[index*7+3] = quat[0] * 32767.0f;
@@ -3602,7 +3602,7 @@ void Mod_INTERQUAKEMODEL_Load(model_t *mod, void *buffer, void *bufferend)
 			for (j = 0;j < (int)header.num_poses;j++, k++)
 			{
 				float qx, qy, qz, qw;
-				loadmodel->data_poses7s[k*7 + 0] = loadmodel->num_poseinvscale * (pose1[j].channeloffset[0] + (pose1[j].channelmask&1 ? (unsigned short)LittleShort(*framedata++) * pose1[j].channelscale[0] : 0));
+				loadmodel->data_poses7s[k*7] = loadmodel->num_poseinvscale * (pose1[j].channeloffset[0] + (pose1[j].channelmask&1 ? (unsigned short)LittleShort(*framedata++) * pose1[j].channelscale[0] : 0));
 				loadmodel->data_poses7s[k*7 + 1] = loadmodel->num_poseinvscale * (pose1[j].channeloffset[1] + (pose1[j].channelmask&2 ? (unsigned short)LittleShort(*framedata++) * pose1[j].channelscale[1] : 0));
 				loadmodel->data_poses7s[k*7 + 2] = loadmodel->num_poseinvscale * (pose1[j].channeloffset[2] + (pose1[j].channelmask&4 ? (unsigned short)LittleShort(*framedata++) * pose1[j].channelscale[2] : 0));
 				qx = pose1[j].channeloffset[3] + (pose1[j].channelmask&8 ? (unsigned short)LittleShort(*framedata++) * pose1[j].channelscale[3] : 0);
@@ -3625,7 +3625,7 @@ void Mod_INTERQUAKEMODEL_Load(model_t *mod, void *buffer, void *bufferend)
 			for (i = 0;i < loadmodel->num_bones;i++)
 			{
 				float qx, qy, qz, qw;
-				loadmodel->data_poses7s[i*7 + 0] = loadmodel->num_poseinvscale * joint1[i].origin[0];
+				loadmodel->data_poses7s[i*7] = loadmodel->num_poseinvscale * joint1[i].origin[0];
 				loadmodel->data_poses7s[i*7 + 1] = loadmodel->num_poseinvscale * joint1[i].origin[1];
 				loadmodel->data_poses7s[i*7 + 2] = loadmodel->num_poseinvscale * joint1[i].origin[2];
 				qx = joint1[i].rotation[0];
@@ -3647,7 +3647,7 @@ void Mod_INTERQUAKEMODEL_Load(model_t *mod, void *buffer, void *bufferend)
 			for (j = 0;j < (int)header.num_poses;j++, k++)
 			{
 				float rot[4];
-				loadmodel->data_poses7s[k*7 + 0] = loadmodel->num_poseinvscale * (pose[j].channeloffset[0] + (pose[j].channelmask&1 ? (unsigned short)LittleShort(*framedata++) * pose[j].channelscale[0] : 0));
+				loadmodel->data_poses7s[k*7] = loadmodel->num_poseinvscale * (pose[j].channeloffset[0] + (pose[j].channelmask&1 ? (unsigned short)LittleShort(*framedata++) * pose[j].channelscale[0] : 0));
 				loadmodel->data_poses7s[k*7 + 1] = loadmodel->num_poseinvscale * (pose[j].channeloffset[1] + (pose[j].channelmask&2 ? (unsigned short)LittleShort(*framedata++) * pose[j].channelscale[1] : 0));
 				loadmodel->data_poses7s[k*7 + 2] = loadmodel->num_poseinvscale * (pose[j].channeloffset[2] + (pose[j].channelmask&4 ? (unsigned short)LittleShort(*framedata++) * pose[j].channelscale[2] : 0));
 				rot[0] = pose[j].channeloffset[3] + (pose[j].channelmask&8 ? (unsigned short)LittleShort(*framedata++) * pose[j].channelscale[3] : 0);
@@ -3671,7 +3671,7 @@ void Mod_INTERQUAKEMODEL_Load(model_t *mod, void *buffer, void *bufferend)
 		{
 			for (i = 0;i < loadmodel->num_bones;i++)
 			{
-				loadmodel->data_poses7s[i*7 + 0] = loadmodel->num_poseinvscale * joint[i].origin[0];
+				loadmodel->data_poses7s[i*7] = loadmodel->num_poseinvscale * joint[i].origin[0];
 				loadmodel->data_poses7s[i*7 + 1] = loadmodel->num_poseinvscale * joint[i].origin[1];
 				loadmodel->data_poses7s[i*7 + 2] = loadmodel->num_poseinvscale * joint[i].origin[2];
 				loadmodel->data_poses7s[i*7 + 3] = 32767.0f * joint[i].rotation[0];
